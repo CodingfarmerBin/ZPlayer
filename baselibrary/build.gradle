@@ -1,37 +1,28 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 //获取config文件中的配置 rootProject 项目的主对象
 def androidConfig = rootProject.ext.defaultConfig
-def appIdConfig = rootProject.ext.appIdConfig
 def dependenciesConfig = rootProject.ext.dependencies
 
 android {
     compileSdkVersion rootProject.ext.defaultConfig.compileSdkVersion
     defaultConfig {
-        applicationId appIdConfig.app
         minSdkVersion androidConfig.minSdkVersion
         targetSdkVersion androidConfig.targetSdkVersion
         versionCode androidConfig.versionCode
         versionName androidConfig.versionName
         testInstrumentationRunner androidConfig.junit
-        //配置BuildConfig 代码中可以调用判断moudle是否为组件
-        buildConfigField("boolean","isComponent",String.valueOf(isComponent))
-
-        //ARouter配置
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME: project.getName()]
-            }
-        }
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -42,13 +33,5 @@ dependencies {
     androidTestImplementation dependenciesConfig.espresso
     implementation dependenciesConfig.appcompat
     implementation dependenciesConfig.constraintlayout
-    implementation dependenciesConfig.arouter
-    annotationProcessor  dependenciesConfig.arouterCompiler
 
-    implementation 'androidx.core:core-ktx:1.0.1'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation project(path: ':baselibrary')
-    if (!isComponent) {//如果是集成模式下 添加依赖，如果使用aar 可以去掉这个
-        implementation project(':shoot')
-    }
 }

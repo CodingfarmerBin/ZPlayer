@@ -1,4 +1,8 @@
-apply plugin: 'com.android.application'
+if (isComponent) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
@@ -10,14 +14,15 @@ def dependenciesConfig = rootProject.ext.dependencies
 android {
     compileSdkVersion rootProject.ext.defaultConfig.compileSdkVersion
     defaultConfig {
-        applicationId appIdConfig.app
+        //如果moudle为组件  配置组件的app ID
+        if (isComponent) {
+            applicationId appIdConfig.shoot
+        }
         minSdkVersion androidConfig.minSdkVersion
         targetSdkVersion androidConfig.targetSdkVersion
         versionCode androidConfig.versionCode
         versionName androidConfig.versionName
         testInstrumentationRunner androidConfig.junit
-        //配置BuildConfig 代码中可以调用判断moudle是否为组件
-        buildConfigField("boolean","isComponent",String.valueOf(isComponent))
 
         //ARouter配置
         javaCompileOptions {
@@ -26,12 +31,14 @@ android {
             }
         }
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -44,11 +51,4 @@ dependencies {
     implementation dependenciesConfig.constraintlayout
     implementation dependenciesConfig.arouter
     annotationProcessor  dependenciesConfig.arouterCompiler
-
-    implementation 'androidx.core:core-ktx:1.0.1'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation project(path: ':baselibrary')
-    if (!isComponent) {//如果是集成模式下 添加依赖，如果使用aar 可以去掉这个
-        implementation project(':shoot')
-    }
 }

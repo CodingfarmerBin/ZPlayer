@@ -1,0 +1,47 @@
+ext {
+
+    // false 集成模式
+    // true 组件模式
+    isComponent = false
+
+    //android开发版本配置
+    defaultConfig = [
+            compileSdkVersion: 28,
+            buildToolsVersion: "28.0.3",
+            minSdkVersion    : 21,
+            targetSdkVersion : 28,
+            versionCode      : 1,
+            versionName      : "1.0",
+            junit            : "androidx.test.runner.AndroidJUnitRunner"
+
+    ]
+
+    appIdConfig = [
+            app  : "com.zqb.player",
+            shoot: "com.zqb.shoot"
+    ]
+
+    //version配置
+    versions = [
+            "compat-version"          : "1.0.0",
+            "constraintlayout-version": "1.1.3",
+            "junit-version"           : "4.12",
+            "test-runner-version"     : "1.1.1",
+            "test-espresso-version"   : "3.1.1",
+            "arouter-version"         : "1.4.0",
+            "arouterCompiler-version" : "1.2.1"
+    ]
+    //support配置
+    dependencies = [
+            'fileTree'        : fileTree(dir: 'libs', include: ['*.jar']),
+            'kotlin'          : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            'junit'           : "junit:junit:${versions["junit-version"]}",
+            'runner'          : "androidx.test:runner:${versions["test-runner-version"]}",
+            'espresso'        : "androidx.test.espresso:espresso-core:${versions["test-espresso-version"]}",
+            'appcompat'       : "androidx.appcompat:appcompat:${versions["compat-version"]}",
+            'constraintlayout': "androidx.constraintlayout:constraintlayout:${versions["constraintlayout-version"]}",
+            'arouter'         : "com.alibaba:arouter-api:${versions["arouter-version"]}",
+            'arouterCompiler' : "com.alibaba:arouter-compiler:${versions["arouterCompiler-version"]}"
+    ]
+
+}

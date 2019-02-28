@@ -1,10 +1,11 @@
-package com.zqb.myapplication
+package com.zqb.player
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.alibaba.android.arouter.launcher.ARouter
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -16,8 +17,14 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            if(!BuildConfig.isComponent){
+                ARouter.getInstance().build("/shoot/ShootActivity")
+                    .withString("title","shoot")
+                    .navigation()
+            }else{
+                Snackbar.make(view, "当前为组件模式", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+            }
         }
     }
 

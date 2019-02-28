@@ -1,4 +1,4 @@
-package com.zqb.myapplication
+package com.zqb.player
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

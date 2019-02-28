@@ -1,4 +1,4 @@
-package com.zqb.myapplication
+package com.zqb.shoot
 
 import org.junit.Test
 
