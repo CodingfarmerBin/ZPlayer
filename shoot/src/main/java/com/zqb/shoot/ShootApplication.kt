@@ -1,17 +1,17 @@
-package com.zqb.player
+package com.zqb.shoot
 
 import android.app.Application
 import com.alibaba.android.arouter.launcher.ARouter
 import com.zqb.baselibrary.base.Constants
 
-class ZApplication : Application() {
+class ShootApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         initARouter()
     }
 
     private fun initARouter() {
-        if (Constants.isDebug) {   // 这两行必须写在init之前，否则这些配置在init过程中将无效
+        if(Constants.isDebug) {
             ARouter.openLog()    // 打印日志
             ARouter.openDebug()   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
         }

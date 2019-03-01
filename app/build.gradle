@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 //获取config文件中的配置 rootProject 项目的主对象
 def androidConfig = rootProject.ext.defaultConfig
@@ -17,12 +18,12 @@ android {
         versionName androidConfig.versionName
         testInstrumentationRunner androidConfig.junit
         //配置BuildConfig 代码中可以调用判断moudle是否为组件
-        buildConfigField("boolean","isComponent",String.valueOf(isComponent))
+        buildConfigField("boolean", "isComponent", String.valueOf(isComponent))
 
         //ARouter配置
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME: project.getName()]
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
     }
@@ -35,15 +36,11 @@ android {
 }
 
 dependencies {
-    implementation dependenciesConfig.fileTree
-    implementation dependenciesConfig.kotlin
+    implementation dependenciesConfig.arouter
+    kapt  dependenciesConfig.arouterCompiler
     testImplementation dependenciesConfig.junit
     androidTestImplementation dependenciesConfig.runner
     androidTestImplementation dependenciesConfig.espresso
-    implementation dependenciesConfig.appcompat
-    implementation dependenciesConfig.constraintlayout
-    implementation dependenciesConfig.arouter
-    annotationProcessor  dependenciesConfig.arouterCompiler
 
     implementation 'androidx.core:core-ktx:1.0.1'
     implementation 'com.google.android.material:material:1.0.0'
