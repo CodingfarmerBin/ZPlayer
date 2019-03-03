@@ -2,7 +2,7 @@ ext {
 
     // false 集成模式
     // true 组件模式
-    isComponent = true
+    isComponent = false
 
     //android开发版本配置
     defaultConfig = [
@@ -18,7 +18,8 @@ ext {
 
     appIdConfig = [
             app  : "com.zqb.player",
-            shoot: "com.zqb.shoot"
+            shoot: "com.zqb.shoot",
+            video: "com.zqb.video"
     ]
 
     //version配置

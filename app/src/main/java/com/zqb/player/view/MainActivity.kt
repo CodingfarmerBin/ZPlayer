@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener { view ->
             if(!BuildConfig.isComponent){
-                ARouter.getInstance().build("/shoot/ShootActivity")
+                ARouter.getInstance().build("/video/VideoActivity")
                     .withString("title","shoot")
                     .navigation()
             }else{

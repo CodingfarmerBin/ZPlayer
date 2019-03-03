@@ -47,5 +47,6 @@ dependencies {
     implementation project(path: ':baselibrary')
     if (!isComponent) {//如果是集成模式下 添加依赖，如果使用aar 可以去掉这个
         implementation project(':shoot')
+        implementation project(':video')
     }
 }

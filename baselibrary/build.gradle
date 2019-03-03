@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 //获取config文件中的配置 rootProject 项目的主对象
 def androidConfig = rootProject.ext.defaultConfig
@@ -23,6 +24,13 @@ android {
         }
     }
 
+    //ARouter配置
+    kapt {
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
+    }
+
 }
 
 dependencies {
@@ -33,5 +41,7 @@ dependencies {
     androidTestImplementation dependenciesConfig.espresso
     implementation dependenciesConfig.appcompat
     implementation dependenciesConfig.constraintlayout
+    implementation dependenciesConfig.arouter
+    kapt  dependenciesConfig.arouterCompiler
 
 }

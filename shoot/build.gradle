@@ -62,4 +62,8 @@ dependencies {
     kapt  dependenciesConfig.arouterCompiler
 
     implementation project(path: ':baselibrary')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
