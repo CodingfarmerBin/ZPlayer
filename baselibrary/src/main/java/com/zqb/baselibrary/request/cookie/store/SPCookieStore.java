@@ -18,7 +18,7 @@ package com.zqb.baselibrary.request.cookie.store;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-import com.allen.library.cookie.SerializableCookie;
+import com.zqb.baselibrary.request.cookie.SerializableCookie;
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 

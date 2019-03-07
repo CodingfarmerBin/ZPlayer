@@ -2,7 +2,7 @@ package com.zqb.baselibrary.request.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import com.allen.library.RxHttpUtils;
+import com.zqb.baselibrary.request.RxHttpUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

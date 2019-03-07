@@ -1,7 +1,7 @@
 package com.zqb.baselibrary.request.download;
 
 import android.annotation.SuppressLint;
-import com.allen.library.manage.RxHttpManager;
+import com.zqb.baselibrary.request.manage.RxHttpManager;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;

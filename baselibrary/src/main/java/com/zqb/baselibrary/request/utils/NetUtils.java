@@ -3,7 +3,7 @@ package com.zqb.baselibrary.request.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import com.allen.library.RxHttpUtils;
+import com.zqb.baselibrary.request.RxHttpUtils;
 
 /**
  * <pre>

@@ -1,7 +1,7 @@
 package com.zqb.baselibrary.request.download;
 
 
-import com.allen.library.RxHttpUtils;
+import com.zqb.baselibrary.request.RxHttpUtils;
 import okhttp3.ResponseBody;
 
 import java.io.File;

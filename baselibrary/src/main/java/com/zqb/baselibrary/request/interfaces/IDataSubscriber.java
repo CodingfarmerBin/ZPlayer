@@ -1,6 +1,6 @@
 package com.zqb.baselibrary.request.interfaces;
 
-import com.allen.library.bean.BaseData;
+import com.zqb.baselibrary.request.bean.BaseData;
 import io.reactivex.disposables.Disposable;
 
 /**

@@ -1,8 +1,8 @@
 package com.zqb.baselibrary.request.interceptor;
 
 import android.util.Log;
-import com.allen.library.constant.SPKeys;
-import com.allen.library.utils.SPUtils;
+import com.zqb.baselibrary.request.constant.SPKeys;
+import com.zqb.baselibrary.request.utils.SPUtils;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;

@@ -1,9 +1,9 @@
 package com.zqb.baselibrary.request.base;
 
-import com.allen.library.bean.BaseData;
-import com.allen.library.exception.ApiException;
-import com.allen.library.interfaces.IDataSubscriber;
-import com.allen.library.manage.RxHttpManager;
+import com.zqb.baselibrary.request.bean.BaseData;
+import com.zqb.baselibrary.request.exception.ApiException;
+import com.zqb.baselibrary.request.interfaces.IDataSubscriber;
+import com.zqb.baselibrary.request.manage.RxHttpManager;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 

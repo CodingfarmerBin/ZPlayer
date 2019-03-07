@@ -1,9 +1,9 @@
 package com.zqb.baselibrary.request.observer;
 
 import android.text.TextUtils;
-import com.allen.library.base.BaseDataObserver;
-import com.allen.library.bean.BaseData;
-import com.allen.library.utils.ToastUtils;
+import com.zqb.baselibrary.request.base.BaseDataObserver;
+import com.zqb.baselibrary.request.bean.BaseData;
+import com.zqb.baselibrary.request.utils.ToastUtils;
 import io.reactivex.disposables.Disposable;
 
 /**

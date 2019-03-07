@@ -6,7 +6,7 @@ import okhttp3.Response;
 
 import java.io.IOException;
 
-import static com.allen.library.utils.NetUtils.isNetworkConnected;
+import static com.zqb.baselibrary.request.utils.NetUtils.isNetworkConnected;
 
 /**
  * <pre>

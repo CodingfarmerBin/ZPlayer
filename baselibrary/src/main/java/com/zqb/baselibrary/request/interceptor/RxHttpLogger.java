@@ -1,7 +1,7 @@
 package com.zqb.baselibrary.request.interceptor;
 
 import android.util.Log;
-import com.allen.library.utils.JsonUtil;
+import com.zqb.baselibrary.request.utils.JsonUtil;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 /**

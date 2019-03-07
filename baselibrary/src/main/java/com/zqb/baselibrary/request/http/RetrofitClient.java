@@ -1,9 +1,9 @@
 package com.zqb.baselibrary.request.http;
 
-import com.allen.library.config.OkHttpConfig;
-import com.allen.library.config.RetrofitConfig;
-import com.allen.library.gson.GsonAdapter;
-import com.allen.library.interceptor.RxHttpLogger;
+import com.zqb.baselibrary.request.config.OkHttpConfig;
+import com.zqb.baselibrary.request.config.RetrofitConfig;
+import com.zqb.baselibrary.request.gson.GsonAdapter;
+import com.zqb.baselibrary.request.interceptor.RxHttpLogger;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.CallAdapter;

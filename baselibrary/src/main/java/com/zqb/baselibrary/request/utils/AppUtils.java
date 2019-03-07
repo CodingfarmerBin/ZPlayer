@@ -6,7 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import com.allen.library.RxHttpUtils;
+import com.zqb.baselibrary.request.RxHttpUtils;
 
 import java.util.UUID;
 

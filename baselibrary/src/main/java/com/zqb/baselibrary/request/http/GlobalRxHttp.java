@@ -1,6 +1,6 @@
 package com.zqb.baselibrary.request.http;
 
-import com.allen.library.config.RetrofitConfig;
+import com.zqb.baselibrary.request.config.RetrofitConfig;
 import okhttp3.OkHttpClient;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;

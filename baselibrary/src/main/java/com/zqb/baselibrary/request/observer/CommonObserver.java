@@ -2,8 +2,8 @@ package com.zqb.baselibrary.request.observer;
 
 
 import android.util.Log;
-import com.allen.library.base.BaseObserver;
-import com.allen.library.bean.BaseBean;
+import com.zqb.baselibrary.request.base.BaseObserver;
+import com.zqb.baselibrary.request.bean.BaseBean;
 import io.reactivex.disposables.Disposable;
 import org.json.JSONException;
 import org.json.JSONObject;

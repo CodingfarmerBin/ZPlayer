@@ -26,5 +26,5 @@ public interface DownloadApi {
      */
     @Streaming
     @GET
-    Flowable<ResponseBody> downloadFile(@Url String fileUrl);
+    Observable<ResponseBody> downloadFile(@Url String fileUrl);
 }

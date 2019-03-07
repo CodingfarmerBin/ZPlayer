@@ -1,7 +1,7 @@
 package com.zqb.baselibrary.request.utils;
 
 import android.widget.Toast;
-import com.allen.library.RxHttpUtils;
+import com.zqb.baselibrary.request.RxHttpUtils;
 
 /**
  * Created by Allen on 2017/10/31.

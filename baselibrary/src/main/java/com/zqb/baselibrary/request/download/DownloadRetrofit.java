@@ -1,6 +1,8 @@
 package com.zqb.baselibrary.request.download;
 
 
+import com.zqb.baselibrary.request.http.RetrofitClient;
+import com.zqb.baselibrary.request.interceptor.Transformer;
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;

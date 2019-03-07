@@ -1,13 +1,14 @@
 package com.zqb.baselibrary.request.http;
 
 import android.text.TextUtils;
-import com.allen.library.RxHttpUtils;
-import com.allen.library.cookie.CookieJarImpl;
-import com.allen.library.cookie.store.CookieStore;
-import com.allen.library.interceptor.HeaderInterceptor;
-import com.allen.library.interceptor.NetCacheInterceptor;
-import com.allen.library.interceptor.NoNetCacheInterceptor;
-import com.allen.library.interceptor.RxHttpLogger;
+import com.zqb.baselibrary.request.RxHttpUtils;
+import com.zqb.baselibrary.request.cookie.CookieJarImpl;
+import com.zqb.baselibrary.request.cookie.store.CookieStore;
+import com.zqb.baselibrary.request.interceptor.HeaderInterceptor;
+import com.zqb.baselibrary.request.interceptor.NetCacheInterceptor;
+import com.zqb.baselibrary.request.interceptor.NoNetCacheInterceptor;
+import com.zqb.baselibrary.request.interceptor.RxHttpLogger;
+import com.zqb.baselibrary.request.cookie.store.CookieStore;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
