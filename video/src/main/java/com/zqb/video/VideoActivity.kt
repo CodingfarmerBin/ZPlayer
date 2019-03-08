@@ -21,7 +21,7 @@ class VideoActivity : AppCompatActivity() {
             .LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_video)
         mUrl = intent.getStringExtra("url")
-        mUrl="http://pl30.live.panda.tv/live_panda/fbda9a9b55c6f61920427e674f6ca08e_mid.flv?sign=2a69cd674226c00bbaea1592f08ced1a&time=&ts=5c7bf949&rid=-85478829"
+        mUrl="rtmp://live.hkstv.hk.lxdns.com/live/hks"
         initPlayer()
     }
 
