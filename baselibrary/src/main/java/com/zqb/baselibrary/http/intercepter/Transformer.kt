@@ -6,15 +6,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 /**
+ * Created by zqb on 2019/3/9.
  *
- */
+ * 线程调度
+ **/
 class Transformer {
     /**
      * 无参数
      *
      * @param <T> 泛型
      * @return 返回Observable
-    </T> */
+     */
     fun <T> configSchedulers(): FlowableTransformer<T, T> {
         return configSchedulers(null)
     }
@@ -25,12 +27,13 @@ class Transformer {
      * @param dialog loading
      * @param <T>    泛型
      * @return 返回Observable
-    </T> */
+     */
     fun <T> configSchedulers(dialog: Dialog?): FlowableTransformer<T, T> {
         return FlowableTransformer { upstream ->
             upstream
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
+                .onBackpressureBuffer()
                 .doOnSubscribe {
                     dialog?.show()
                 }
