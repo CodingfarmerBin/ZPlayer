@@ -1,33 +1,67 @@
 package com.zqb.player.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.alibaba.android.arouter.launcher.ARouter
+import com.zqb.baselibrary.http.Api
+import com.zqb.baselibrary.http.ApiService
+import com.zqb.baselibrary.http.HttpUtils
+import com.zqb.baselibrary.http.intercepter.Transformer
+import com.zqb.baselibrary.http.observer.StringObservable
+import com.zqb.baselibrary.request.observer.CommonObserver
 import com.zqb.player.BuildConfig
 import com.zqb.player.R
+import io.reactivex.FlowableSubscriber
 
 import kotlinx.android.synthetic.main.activity_main.*
+import org.reactivestreams.Subscription
 
 class MainActivity : AppCompatActivity() {
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            if(!BuildConfig.isComponent){
+            if (!BuildConfig.isComponent) {
                 ARouter.getInstance().build("/video/VideoActivity")
-                    .withString("title","shoot")
+                    .withString("title", "shoot")
                     .navigation()
-            }else{
+
+            } else {
                 Snackbar.make(view, "当前为组件模式", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
+                HttpUtils()
+                    .post("login", Api.getRequestBody(HashMap()))
+                    .compose(Transformer().configSchedulers())
+                    .subscribe(object : FlowableSubscriber<String?> {
+                        override fun onComplete() {
+
+                        }
+
+                        override fun onSubscribe(s: Subscription) {
+
+                        }
+
+                        override fun onNext(t: String?) {
+                            Log.d("haha",t+"--")
+                        }
+
+                        override fun onError(t: Throwable?) {
+                            Log.d("haha",t.toString())
+                        }
+                    })
             }
         }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

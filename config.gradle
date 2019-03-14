@@ -2,7 +2,7 @@ ext {
 
     // false 集成模式
     // true 组件模式
-    isComponent = false
+    isComponent = true
 
     //android开发版本配置
     defaultConfig = [

@@ -4,7 +4,7 @@
           package="com.zqb.player">
 
     <dist:module dist:instant="true"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
             android:name=".ZApplication"
             android:allowBackup="true"
