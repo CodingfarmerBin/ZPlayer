@@ -1,11 +1,8 @@
-package com.zqb.baselibrary.http
+package com.zqb.baselibrary.http.base
 
-import android.util.Log
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import okhttp3.MediaType
 import okhttp3.RequestBody
-import org.json.JSONObject
 
 object Api {
 
@@ -15,8 +12,13 @@ object Api {
      *  创建 body
      * @return 返回RequestBody
      */
-    fun getRequestBody(params: MutableMap<String, Any>): RequestBody {
-        val json = Gson().toJson(params)
+    fun getRequestBody(params: MutableMap<String, Any>?): RequestBody {
+        val json:String
+        if (params != null) {
+            json = Gson().toJson(params)
+        } else {
+            json = ""
+        }
         return RequestBody.create(mediaType, "parameters=$json")
     }
 }

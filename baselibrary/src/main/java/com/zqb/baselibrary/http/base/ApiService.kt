@@ -1,4 +1,4 @@
-package com.zqb.baselibrary.http
+package com.zqb.baselibrary.http.base
 
 import io.reactivex.Flowable
 import okhttp3.MultipartBody
@@ -7,7 +7,7 @@ import retrofit2.http.*
 
 interface ApiService{
     @POST
-    fun post(@Url url:String, @Body body: RequestBody): Flowable<String>
+    fun <T> post(@Url url:String, @Body body: RequestBody): Flowable<T>
 
     @GET
     fun get(@Url url:String, @Body body: RequestBody): Flowable<String>

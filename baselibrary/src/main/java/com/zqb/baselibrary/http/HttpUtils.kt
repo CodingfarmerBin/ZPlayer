@@ -1,20 +1,18 @@
 package com.zqb.baselibrary.http
 
 import android.annotation.SuppressLint
-import android.app.Application
-import android.content.Context
 import com.zqb.baselibrary.base.BaseApplication
 import com.zqb.baselibrary.base.Constants
+import com.zqb.baselibrary.http.base.Api
+import com.zqb.baselibrary.http.base.ApiService
 import com.zqb.baselibrary.http.config.OkHttpConfig
 import com.zqb.baselibrary.http.config.RetrofitConfig
 import com.zqb.baselibrary.http.cookie.CookieJarImpl
 import com.zqb.baselibrary.http.cookie.store.CookieStore
-import com.zqb.baselibrary.http.intercepter.Transformer
 import com.zqb.baselibrary.http.request.IRequest
 import io.reactivex.Flowable
 import okhttp3.*
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class HttpUtils {
 
@@ -36,11 +34,11 @@ class HttpUtils {
     /**
      * get请求
      */
-    fun get(url: String,body: RequestBody):HttpUtils{
+    fun get(url: String,map:HashMap<String,Any>?):HttpUtils{
         getInstance()
             .config()
             .create(ApiService::class.java)
-            .get(url,body)
+            .get(url, Api.getRequestBody(map))
         return this
     }
 
@@ -48,18 +46,18 @@ class HttpUtils {
      * get请求 通过自定义的参数
      */
     fun get(data:IRequest):HttpUtils{
-        get(data.url!!,data.requestBody!!)
+        get(data.url!!,data.map)
         return this
     }
 
     /**
      * post请求
      */
-    fun post(url: String,body: RequestBody):Flowable<String>{
+    fun<T> post(url: String,map:HashMap<String,Any>?):Flowable<T>{
         return  getInstance()
             .config()
             .create(ApiService::class.java)
-            .post(url,body)
+            .post(url, Api.getRequestBody(map))
     }
 
     /**

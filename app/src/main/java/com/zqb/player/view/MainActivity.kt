@@ -8,12 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.alibaba.android.arouter.launcher.ARouter
-import com.zqb.baselibrary.http.Api
-import com.zqb.baselibrary.http.ApiService
 import com.zqb.baselibrary.http.HttpUtils
 import com.zqb.baselibrary.http.intercepter.Transformer
-import com.zqb.baselibrary.http.observer.StringObservable
-import com.zqb.baselibrary.request.observer.CommonObserver
 import com.zqb.player.BuildConfig
 import com.zqb.player.R
 import io.reactivex.FlowableSubscriber
@@ -39,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                 Snackbar.make(view, "当前为组件模式", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
                 HttpUtils()
-                    .post("login", Api.getRequestBody(HashMap()))
+                    .post<String>("login", HashMap())
                     .compose(Transformer().configSchedulers())
                     .subscribe(object : FlowableSubscriber<String?> {
                         override fun onComplete() {
