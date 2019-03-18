@@ -5,7 +5,7 @@ package com.zqb.baselibrary.http.base
  *
  *  处理返回错误码 和错误描述（根据后端而定）
  */
-class BaseBean {
+open class BaseBean {
     /**
      * 错误码
      */

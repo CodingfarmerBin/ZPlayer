@@ -19,11 +19,11 @@ object RetrofitConfig {
 
     private var retrofit: Retrofit? = null
 
-    fun getRetrofit(): Retrofit? {
+    fun getRetrofit(): Retrofit {
         if(retrofit==null){
             return Builder().build()
         }else {
-            return retrofit
+            return retrofit!!
         }
     }
 

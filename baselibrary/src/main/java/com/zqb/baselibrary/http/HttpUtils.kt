@@ -1,88 +1,91 @@
 package com.zqb.baselibrary.http
 
 import android.annotation.SuppressLint
-import com.zqb.baselibrary.base.BaseApplication
-import com.zqb.baselibrary.base.Constants
 import com.zqb.baselibrary.http.base.Api
 import com.zqb.baselibrary.http.base.ApiService
 import com.zqb.baselibrary.http.config.OkHttpConfig
 import com.zqb.baselibrary.http.config.RetrofitConfig
 import com.zqb.baselibrary.http.cookie.CookieJarImpl
 import com.zqb.baselibrary.http.cookie.store.CookieStore
+import com.zqb.baselibrary.http.intercepter.GSONFun
+import com.zqb.baselibrary.http.intercepter.StringFun
 import com.zqb.baselibrary.http.request.IRequest
 import io.reactivex.Flowable
 import okhttp3.*
 import retrofit2.Retrofit
 
 class HttpUtils {
-
     @SuppressLint("StaticFieldLeak")
-    private var instance: HttpUtils? = null
+    companion object {
+        //双重校验锁式 单例
+        val instance: HttpUtils by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+            HttpUtils() }
 
-    fun getInstance(): HttpUtils {
-        if (instance == null) {
-            synchronized(HttpUtils::class.java) {
-                if (instance == null) {
-                    instance = HttpUtils()
-                }
-            }
-
+        /**
+         * get请求
+         */
+        fun get(url: String, map: HashMap<String, Any>?): HttpUtils {
+            instance
+                .config()
+                .create(ApiService::class.java)
+                .get(url, Api.getRequestBody(map))
+            return instance
         }
-        return instance!!
-    }
 
-    /**
-     * get请求
-     */
-    fun get(url: String,map:HashMap<String,Any>?):HttpUtils{
-        getInstance()
-            .config()
-            .create(ApiService::class.java)
-            .get(url, Api.getRequestBody(map))
-        return this
-    }
+        /**
+         * get请求 通过自定义的参数
+         */
+        fun get(data: IRequest): HttpUtils {
+            get(data.url!!, data.map)
+            return instance
+        }
 
-    /**
-     * get请求 通过自定义的参数
-     */
-    fun get(data:IRequest):HttpUtils{
-        get(data.url!!,data.map)
-        return this
-    }
+        /**
+         * post请求
+         */
+        fun <T> post(url: String, map: HashMap<String, Any>?,responseClass:Class<T>): Flowable<T> {
+            return instance
+                .config()
+                .create(ApiService::class.java)
+                .post(url, Api.getRequestBody(map))
+                .flatMap(GSONFun(responseClass))
+        }
 
-    /**
-     * post请求
-     */
-    fun<T> post(url: String,map:HashMap<String,Any>?):Flowable<T>{
-        return  getInstance()
-            .config()
-            .create(ApiService::class.java)
-            .post(url, Api.getRequestBody(map))
-    }
+        /**
+         * post请求 不需要返回javaBean
+         */
+        fun  post(url: String, map: HashMap<String, Any>?): Flowable<String> {
+            return instance
+                .config()
+                .create(ApiService::class.java)
+                .post(url, Api.getRequestBody(map))
+                .flatMap(StringFun())
+        }
 
-    /**
-     *  上传
-     */
-    fun upload(url: String,list:List<MultipartBody.Part>):HttpUtils{
-        getInstance()
-            .config()
-            .create(ApiService::class.java)
-            .upload(url,list)
-        return this
+
+        /**
+         *  上传
+         */
+        fun upload(url: String, list: List<MultipartBody.Part>): HttpUtils {
+            instance
+                .config()
+                .create(ApiService::class.java)
+                .upload(url, list)
+            return instance
+        }
+
+        fun <T> createApi (service:Class<T> ):T{
+            return  instance
+                .config()
+                .create(service)
+        }
     }
 
     /**
      * 配置 OKHttpClient 和
      */
     private fun config():Retrofit{
-        return RetrofitConfig.Builder()
-            .setBaseUrl(Constants.BASE_URL)
-            .setClient(OkHttpConfig.Builder(BaseApplication()).build())
-            .build()
-    }
-
-    fun <T> createApi (service:Class<T> ):T{
-        return config().create(service)
+        return RetrofitConfig.getRetrofit()
     }
 
     /**

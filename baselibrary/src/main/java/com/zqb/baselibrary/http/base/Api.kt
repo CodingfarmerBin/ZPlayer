@@ -12,6 +12,7 @@ object Api {
      *  创建 body
      * @return 返回RequestBody
      */
+    @JvmSuppressWildcards
     fun getRequestBody(params: MutableMap<String, Any>?): RequestBody {
         val json:String
         if (params != null) {

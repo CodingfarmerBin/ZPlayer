@@ -2,12 +2,16 @@ package com.zqb.player.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.alibaba.android.arouter.launcher.ARouter
 import com.zqb.baselibrary.http.HttpUtils
+import com.zqb.baselibrary.http.base.Api
+import com.zqb.baselibrary.http.base.ApiService
+import com.zqb.baselibrary.http.base.BaseBean
 import com.zqb.baselibrary.http.intercepter.Transformer
 import com.zqb.baselibrary.http.subscriber.CommonSubscriber
 import com.zqb.player.BuildConfig
@@ -33,23 +37,40 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Snackbar.make(view, "当前为组件模式", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
-                HttpUtils()
-                    .post<String>("login", HashMap())
+                HttpUtils
+                    .post("login", HashMap(),DataBean::class.java)
                     .compose(Transformer().configSchedulers())
                     .compose(Transformer().handleResult())
-                    .subscribe(object: CommonSubscriber<String?>() {
+                    .subscribe(object: CommonSubscriber<DataBean?>() {
                         override fun doOnError(code: Int, msg: String?) {
-
+                            Log.d("haha",msg)
                         }
 
                         override fun onSubscribe(s: Subscription) {
 
                         }
 
-                        override fun onNext(t: String?) {
+                        override fun onNext(t: DataBean?) {
 
                         }
                     })
+//                HttpUtils.createApi(ApiService::class.java)
+//                    .post2("login",Api.getRequestBody(HashMap()))
+//                    .compose(Transformer().configSchedulers())
+//                    .compose(Transformer().handleResult())
+//                    .subscribe(object: CommonSubscriber<BaseBean?>() {
+//                        override fun doOnError(code: Int, msg: String?) {
+//                            Log.d("haha",msg)
+//                        }
+//
+//                        override fun onSubscribe(s: Subscription) {
+//
+//                        }
+//
+//                        override fun onNext(t: BaseBean?) {
+//
+//                        }
+//                    })
             }
         }
 
