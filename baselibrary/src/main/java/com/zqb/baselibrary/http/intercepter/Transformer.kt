@@ -8,7 +8,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.reactivestreams.Subscriber
 import android.R.attr.data
-import com.zqb.baselibrary.request.bean.BaseBean
+import com.zqb.baselibrary.http.base.BaseBean
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import org.json.JSONObject

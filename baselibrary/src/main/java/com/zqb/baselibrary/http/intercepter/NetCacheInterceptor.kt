@@ -1,12 +1,11 @@
 package com.zqb.baselibrary.http.intercepter
 
+import com.zqb.baselibrary.http.Utils.NetUtils
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 
 import java.io.IOException
-
-import com.zqb.baselibrary.request.utils.NetUtils.isNetworkConnected
 
 /**
  *
@@ -19,7 +18,7 @@ class NetCacheInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
 
         val request = chain.request()
-        val connected = isNetworkConnected()
+        val connected = NetUtils.isNetworkConnected
         if (connected) {
             //如果有网络，缓存60s
             val response = chain.proceed(request)

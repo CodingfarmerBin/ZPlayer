@@ -2,7 +2,7 @@ package com.zqb.baselibrary.http.intercepter
 
 import android.util.Log
 import com.zqb.baselibrary.base.Constants
-import com.zqb.baselibrary.request.utils.JsonUtil
+import com.zqb.baselibrary.http.Utils.JsonUtil
 import okhttp3.logging.HttpLoggingInterceptor
 
 class LoggingInterceptor : HttpLoggingInterceptor.Logger {
@@ -30,7 +30,6 @@ class LoggingInterceptor : HttpLoggingInterceptor.Logger {
         if (copyMessage.startsWith("<-- END HTTP")) {
             val s = mMessage.toString()
             Log.e(Constants.REQUEST_TAG,s)
-            Log.e("RxHttpUtils", s)
         }
     }
 }

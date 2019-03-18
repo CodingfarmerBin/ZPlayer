@@ -1,12 +1,8 @@
-package com.zqb.baselibrary.http.observer
+package com.zqb.baselibrary.http.subscriber
 
 import com.zqb.baselibrary.http.base.ApiException
 import com.zqb.baselibrary.http.base.BaseSubscriber
 import com.zqb.baselibrary.http.exception.ZThrowable
-import io.reactivex.FlowableSubscriber
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
-import org.reactivestreams.Subscription
 
 /**
  * Created by zqb on 2019/3/9.

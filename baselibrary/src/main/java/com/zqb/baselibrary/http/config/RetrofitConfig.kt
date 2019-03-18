@@ -1,7 +1,7 @@
 package com.zqb.baselibrary.http.config
 
 import com.zqb.baselibrary.base.Constants
-import com.zqb.baselibrary.request.gson.GsonAdapter
+import com.zqb.baselibrary.http.gson.GsonAdapter
 import okhttp3.OkHttpClient
 import retrofit2.CallAdapter
 import retrofit2.Converter
