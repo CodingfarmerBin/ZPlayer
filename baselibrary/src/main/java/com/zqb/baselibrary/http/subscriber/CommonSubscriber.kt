@@ -16,7 +16,7 @@ abstract class CommonSubscriber<T> : BaseSubscriber<T>() {
 
     override fun onSubscribe(s: Subscription) {
         // 下游能处理几个就告诉上游要几个
-        s.request(5)
+        s.request(Long.MAX_VALUE)
         doOnSubscribe(s)
     }
 

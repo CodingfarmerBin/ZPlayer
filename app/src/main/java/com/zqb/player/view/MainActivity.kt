@@ -47,40 +47,39 @@ class MainActivity : AppCompatActivity() {
                 map["userPassword"] = "7D539FA7514BC639F23E752E4418C049"
                 map["regId"] = "13065ffa4e4cf8f31e5"
                 map["userId"] = ""
-//                HttpUtils
-//                    .post<String>("bUser/shopUserLogin", map)
-//                    .compose(Transformer().configSchedulers())
-//                    .compose(Transformer().handleResult())
-//                    .subscribe(object: CommonSubscriber<String?>() {
-//                        override fun doOnError(code: Int, msg: String?) {
-//                            Toast.makeText(applicationContext,msg,Toast.LENGTH_LONG).show()
-//                        }
-//
-//                        override fun onSubscribe(s: Subscription) {
-//
-//                        }
-//
-//                        override fun onNext(t: String?) {
-//                            Toast.makeText(applicationContext,t,Toast.LENGTH_LONG).show()
-//                        }
-//                    })
-                HttpUtils.createApi(ApiService::class.java)
-                    .post2("bUser/shopUserLogin",Api.getRequestBody(map))
-                    .compose(Transformer().configSchedulers())
-                    .compose(Transformer().handleResult())
-                    .subscribe(object: CommonSubscriber<String?>() {
+                HttpUtils
+                    .post("bUser/shopUserLogin", map,DataBean::class.java)
+                    .compose(Transformer().configAll(null))
+                    .subscribe(object: CommonSubscriber<DataBean?>() {
                         override fun doOnSubscribe(s: Subscription) {
 
                         }
 
                         override fun doOnError(code: Int, msg: String?) {
-                            Log.d("haha",msg)
+                            Toast.makeText(applicationContext,msg,Toast.LENGTH_LONG).show()
                         }
 
-                        override fun onNext(t: String?) {
-                            Log.d("haha","onNext$t")
+                        override fun onNext(t: DataBean?) {
+                            Toast.makeText(applicationContext,t!!.msg,Toast.LENGTH_LONG).show()
                         }
                     })
+//                HttpUtils.createApi(ApiService::class.java)
+//                    .post2("bUser/shopUserLogin",Api.getRequestBody(map))
+//                    .compose(Transformer().configSchedulers())
+//                    .compose(Transformer().handleResult())
+//                    .subscribe(object: CommonSubscriber<String?>() {
+//                        override fun doOnSubscribe(s: Subscription) {
+//
+//                        }
+//
+//                        override fun doOnError(code: Int, msg: String?) {
+//                            Log.d("haha",msg)
+//                        }
+//
+//                        override fun onNext(t: String?) {
+//                            Log.d("haha","onNext$t")
+//                        }
+//                    })
             }
         }
 

@@ -8,7 +8,6 @@ import com.zqb.baselibrary.http.config.RetrofitConfig
 import com.zqb.baselibrary.http.cookie.CookieJarImpl
 import com.zqb.baselibrary.http.cookie.store.CookieStore
 import com.zqb.baselibrary.http.intercepter.GSONFun
-import com.zqb.baselibrary.http.intercepter.StringFun
 import com.zqb.baselibrary.http.request.IRequest
 import io.reactivex.Flowable
 import okhttp3.*
@@ -25,46 +24,46 @@ class HttpUtils {
         /**
          * post请求
          */
-        fun <T> post(url: String, map: HashMap<String, Any>?): Flowable<T> {
+        fun <T> post(url: String, map: HashMap<String, Any>?,responseClass:Class<T>): Flowable<T> {
             return instance
                 .config()
                 .create(ApiService::class.java)
                 .post(url, Api.getRequestBody(map))
-                .flatMap(GSONFun())
+                .flatMap(GSONFun(responseClass))
+        }
+
+
+        /**
+         * post请求 返回参数String类型
+         */
+        fun  post(url: String, map: HashMap<String, Any>?): Flowable<String> {
+            return instance
+                .config()
+                .create(ApiService::class.java)
+                .post(url, Api.getRequestBody(map))
         }
 
         /**
          * get请求
          */
-        fun <T> get(url: String): Flowable<T> {
+        fun <T> get(url: String,responseClass:Class<T>): Flowable<T> {
             return instance
                 .config()
                 .create(ApiService::class.java)
                 .get(url)
-                .flatMap(GSONFun())
+                .flatMap(GSONFun(responseClass))
         }
 
         /**
          * get请求 通过自定义的参数
          */
-        fun <T> get(data: IRequest): Flowable<T> {
+        fun <T> get(data: IRequest,responseClass:Class<T>): Flowable<T> {
             return instance
                 .config()
                 .create(ApiService::class.java)
                 .get(data.url!!)
-                .flatMap(GSONFun())
+                .flatMap(GSONFun(responseClass))
         }
-
-//        /**
-//         * post请求 不需要返回javaBean
-//         */
-//        fun  post(url: String, map: HashMap<String, Any>?): Flowable<String> {
-//            return instance
-//                .config()
-//                .create(ApiService::class.java)
-//                .post(url, Api.getRequestBody(map))
-//                .flatMap(StringFun())
-//        }
 
 
         /**

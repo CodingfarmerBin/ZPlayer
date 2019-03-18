@@ -9,13 +9,13 @@ import retrofit2.http.*
 interface ApiService{
 
     @POST
-    fun post(@Url url:String, @Body body: RequestBody): Flowable<ResponseBody>
+    fun post(@Url url:String, @Body body: RequestBody): Flowable<String>
 
     @POST
     fun  post2(@Url url:String, @Body body: RequestBody): Flowable<String>
 
     @GET
-    fun get(@Url url:String): Flowable<ResponseBody>
+    fun get(@Url url:String): Flowable<String>
 
     @Multipart
     @POST

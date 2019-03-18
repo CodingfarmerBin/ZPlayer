@@ -1,14 +1,11 @@
 package com.zqb.baselibrary.http.intercepter
 
 import android.app.Dialog
+import android.util.Log
 import com.zqb.baselibrary.http.exception.ZThrowable
 import io.reactivex.FlowableTransformer
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.reactivestreams.Subscriber
-import android.R.attr.data
-import android.util.Log
 import com.zqb.baselibrary.http.base.BaseBean
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -41,6 +38,50 @@ class Transformer {
     fun <T> configSchedulers(dialog: Dialog?): FlowableTransformer<T, T> {
         return FlowableTransformer { upstream ->
             upstream
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .doOnSubscribe {
+                    dialog?.show()
+                }
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally {
+                    dialog?.dismiss()
+                }
+        }
+    }
+
+    /**
+     * 配置所有，线程切换 dialog 和结果处理
+     *
+     * @param dialog loading
+     * @param <T>    泛型
+     * @return 返回Observable
+     */
+    fun <T> configAll(dialog: Dialog?): FlowableTransformer<T, T> {
+        return FlowableTransformer { upstream ->
+            upstream
+                .flatMap {
+                    if(it is BaseBean){
+                        if(it.code!=200) {
+                            val throwable = ZThrowable()
+                            throwable.code=it.code
+                            throwable.msg=it.msg
+                            Flowable.error<T>(throwable)
+                        }
+                    }else if(it is String){
+                        val jsonObject = JSONObject(it)
+                        val msg = jsonObject.optString("msg")
+                        val code = jsonObject.optInt("code")
+                        if(code!=200) {
+                            val throwable = ZThrowable()
+                            throwable.code=code
+                            throwable.msg=msg
+                            Flowable.error<T>(throwable)
+                        }
+                    }
+                    createData(it)
+                }
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .doOnSubscribe {
@@ -91,7 +132,7 @@ class Transformer {
             } catch (e: Exception) {
                 emitter.onError(e)
             }
-        }, BackpressureStrategy.ERROR)
+        }, BackpressureStrategy.BUFFER)
     }
 
 
