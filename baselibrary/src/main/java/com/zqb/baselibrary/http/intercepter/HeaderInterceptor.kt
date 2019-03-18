@@ -17,8 +17,9 @@ class HeaderInterceptor(var headerMaps: Map<String, Any>) : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
+        request.addHeader("Content-Type", "text/html; charset=UTF-8")
+        request.addHeader("Accept-Encoding", "identity")
         if (headerMaps.isNotEmpty()) {
-            request.addHeader("Content-Type", "text/html; charset=UTF-8")
             for ((key, value) in headerMaps) {
                 request.addHeader(key, value.toString())
             }

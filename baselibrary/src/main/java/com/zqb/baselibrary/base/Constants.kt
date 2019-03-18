@@ -14,5 +14,6 @@ object Constants {
     //网络请求 统一Log管理
     const val REQUEST_TAG="REQUEST"
     //网络请求 基地址
-    const val BASE_URL="http://192.168.0.28:8080/api/"
+    const val BASE_URL="http://merchants.spiders-link.com/api/"
+//    const val BASE_URL="https://api.apiopen.top/"
 }

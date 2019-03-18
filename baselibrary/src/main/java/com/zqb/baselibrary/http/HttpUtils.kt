@@ -19,48 +19,52 @@ class HttpUtils {
     companion object {
         //双重校验锁式 单例
         val instance: HttpUtils by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-            HttpUtils() }
-
-        /**
-         * get请求
-         */
-        fun get(url: String, map: HashMap<String, Any>?): HttpUtils {
-            instance
-                .config()
-                .create(ApiService::class.java)
-                .get(url, Api.getRequestBody(map))
-            return instance
-        }
-
-        /**
-         * get请求 通过自定义的参数
-         */
-        fun get(data: IRequest): HttpUtils {
-            get(data.url!!, data.map)
-            return instance
+            HttpUtils()
         }
 
         /**
          * post请求
          */
-        fun <T> post(url: String, map: HashMap<String, Any>?,responseClass:Class<T>): Flowable<T> {
+        fun <T> post(url: String, map: HashMap<String, Any>?): Flowable<T> {
             return instance
                 .config()
                 .create(ApiService::class.java)
                 .post(url, Api.getRequestBody(map))
-                .flatMap(GSONFun(responseClass))
+                .flatMap(GSONFun())
         }
 
         /**
-         * post请求 不需要返回javaBean
+         * get请求
          */
-        fun  post(url: String, map: HashMap<String, Any>?): Flowable<String> {
+        fun <T> get(url: String): Flowable<T> {
             return instance
                 .config()
                 .create(ApiService::class.java)
-                .post(url, Api.getRequestBody(map))
-                .flatMap(StringFun())
+                .get(url)
+                .flatMap(GSONFun())
         }
+
+        /**
+         * get请求 通过自定义的参数
+         */
+        fun <T> get(data: IRequest): Flowable<T> {
+            return instance
+                .config()
+                .create(ApiService::class.java)
+                .get(data.url!!)
+                .flatMap(GSONFun())
+        }
+
+//        /**
+//         * post请求 不需要返回javaBean
+//         */
+//        fun  post(url: String, map: HashMap<String, Any>?): Flowable<String> {
+//            return instance
+//                .config()
+//                .create(ApiService::class.java)
+//                .post(url, Api.getRequestBody(map))
+//                .flatMap(StringFun())
+//        }
 
 
         /**
@@ -74,8 +78,8 @@ class HttpUtils {
             return instance
         }
 
-        fun <T> createApi (service:Class<T> ):T{
-            return  instance
+        fun <T> createApi(service: Class<T>): T {
+            return instance
                 .config()
                 .create(service)
         }
@@ -84,7 +88,7 @@ class HttpUtils {
     /**
      * 配置 OKHttpClient 和
      */
-    private fun config():Retrofit{
+    private fun config(): Retrofit {
         return RetrofitConfig.getRetrofit()
     }
 

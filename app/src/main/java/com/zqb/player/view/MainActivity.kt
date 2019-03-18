@@ -7,6 +7,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.alibaba.android.arouter.launcher.ARouter
 import com.zqb.baselibrary.http.HttpUtils
 import com.zqb.baselibrary.http.base.Api
@@ -16,8 +17,11 @@ import com.zqb.baselibrary.http.intercepter.Transformer
 import com.zqb.baselibrary.http.subscriber.CommonSubscriber
 import com.zqb.player.BuildConfig
 import com.zqb.player.R
+import io.reactivex.FlowableSubscriber
+import io.reactivex.functions.Consumer
 
 import kotlinx.android.synthetic.main.activity_main.*
+import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 
 class MainActivity : AppCompatActivity() {
@@ -37,40 +41,46 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Snackbar.make(view, "当前为组件模式", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
-                HttpUtils
-                    .post("login", HashMap(),DataBean::class.java)
-                    .compose(Transformer().configSchedulers())
-                    .compose(Transformer().handleResult())
-                    .subscribe(object: CommonSubscriber<DataBean?>() {
-                        override fun doOnError(code: Int, msg: String?) {
-                            Log.d("haha",msg)
-                        }
-
-                        override fun onSubscribe(s: Subscription) {
-
-                        }
-
-                        override fun onNext(t: DataBean?) {
-
-                        }
-                    })
-//                HttpUtils.createApi(ApiService::class.java)
-//                    .post2("login",Api.getRequestBody(HashMap()))
+//                https://api.apiopen.top/getJoke?page=1&count=2&type=video
+                val map: HashMap<String, Any> = HashMap()
+                map["userPhone"] = "18249033054"
+                map["userPassword"] = "7D539FA7514BC639F23E752E4418C049"
+                map["regId"] = "13065ffa4e4cf8f31e5"
+                map["userId"] = ""
+//                HttpUtils
+//                    .post<String>("bUser/shopUserLogin", map)
 //                    .compose(Transformer().configSchedulers())
 //                    .compose(Transformer().handleResult())
-//                    .subscribe(object: CommonSubscriber<BaseBean?>() {
+//                    .subscribe(object: CommonSubscriber<String?>() {
 //                        override fun doOnError(code: Int, msg: String?) {
-//                            Log.d("haha",msg)
+//                            Toast.makeText(applicationContext,msg,Toast.LENGTH_LONG).show()
 //                        }
 //
 //                        override fun onSubscribe(s: Subscription) {
 //
 //                        }
 //
-//                        override fun onNext(t: BaseBean?) {
-//
+//                        override fun onNext(t: String?) {
+//                            Toast.makeText(applicationContext,t,Toast.LENGTH_LONG).show()
 //                        }
 //                    })
+                HttpUtils.createApi(ApiService::class.java)
+                    .post2("bUser/shopUserLogin",Api.getRequestBody(map))
+                    .compose(Transformer().configSchedulers())
+                    .compose(Transformer().handleResult())
+                    .subscribe(object: CommonSubscriber<String?>() {
+                        override fun doOnSubscribe(s: Subscription) {
+
+                        }
+
+                        override fun doOnError(code: Int, msg: String?) {
+                            Log.d("haha",msg)
+                        }
+
+                        override fun onNext(t: String?) {
+                            Log.d("haha","onNext$t")
+                        }
+                    })
             }
         }
 

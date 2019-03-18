@@ -12,10 +12,10 @@ interface ApiService{
     fun post(@Url url:String, @Body body: RequestBody): Flowable<ResponseBody>
 
     @POST
-    fun  post2(@Url url:String, @Body body: RequestBody): Flowable<BaseBean>
+    fun  post2(@Url url:String, @Body body: RequestBody): Flowable<String>
 
     @GET
-    fun get(@Url url:String, @Body body: RequestBody): Flowable<String>
+    fun get(@Url url:String): Flowable<ResponseBody>
 
     @Multipart
     @POST

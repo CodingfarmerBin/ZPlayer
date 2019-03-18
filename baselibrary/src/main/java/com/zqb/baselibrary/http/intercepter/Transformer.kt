@@ -8,6 +8,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.reactivestreams.Subscriber
 import android.R.attr.data
+import android.util.Log
 import com.zqb.baselibrary.http.base.BaseBean
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -42,7 +43,6 @@ class Transformer {
             upstream
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
-                .onBackpressureBuffer()
                 .doOnSubscribe {
                     dialog?.show()
                 }
@@ -61,9 +61,7 @@ class Transformer {
         return FlowableTransformer { upstream ->
             upstream.flatMap {
                 if(it is BaseBean){
-                    if(it.code==200) {
-                        createData(it)
-                    }else{
+                    if(it.code!=200) {
                         val throwable = ZThrowable()
                         throwable.code=it.code
                         throwable.msg=it.msg
@@ -73,16 +71,14 @@ class Transformer {
                     val jsonObject = JSONObject(it)
                     val msg = jsonObject.optString("msg")
                     val code = jsonObject.optInt("code")
-                    if(code==200) {
-                        createData(it)
-                    }else{
+                    if(code!=200) {
                         val throwable = ZThrowable()
                         throwable.code=code
                         throwable.msg=msg
                         Flowable.error<T>(throwable)
                     }
                 }
-                Flowable.empty<T>()
+                createData(it)
             }
         }
     }
@@ -95,7 +91,8 @@ class Transformer {
             } catch (e: Exception) {
                 emitter.onError(e)
             }
-        }, BackpressureStrategy.BUFFER)
+        }, BackpressureStrategy.ERROR)
     }
+
 
 }
