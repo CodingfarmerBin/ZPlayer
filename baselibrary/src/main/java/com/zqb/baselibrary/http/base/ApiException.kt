@@ -61,7 +61,7 @@ class ApiException(throwable: Throwable, var code: Int) : Exception(throwable) {
     companion object {
 
         fun handleException(e: Throwable): ApiException {
-            var ex: ApiException
+            val ex: ApiException
             if (e is HttpException) {
                 ex = ApiException(e, e.code())
                 ex.msg = e.message

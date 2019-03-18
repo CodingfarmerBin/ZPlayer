@@ -9,15 +9,5 @@ import io.reactivex.disposables.Disposable
  **/
 abstract class BaseSubscriber<T>: FlowableSubscriber<T> {
 
-    override fun onComplete() {
-
-    }
-
-    override fun onNext(t: T) {
-
-    }
-
-    override fun onError(e: Throwable) {
-
-    }
+    abstract fun doOnError(code: Int, msg: String?)
 }

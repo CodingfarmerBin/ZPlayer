@@ -10,6 +10,7 @@ import android.view.MenuItem
 import com.alibaba.android.arouter.launcher.ARouter
 import com.zqb.baselibrary.http.HttpUtils
 import com.zqb.baselibrary.http.intercepter.Transformer
+import com.zqb.baselibrary.http.observer.CommonSubscriber
 import com.zqb.player.BuildConfig
 import com.zqb.player.R
 import io.reactivex.FlowableSubscriber
@@ -37,8 +38,9 @@ class MainActivity : AppCompatActivity() {
                 HttpUtils()
                     .post<String>("login", HashMap())
                     .compose(Transformer().configSchedulers())
-                    .subscribe(object : FlowableSubscriber<String?> {
-                        override fun onComplete() {
+                    .compose(Transformer().handleResult())
+                    .subscribe(object: CommonSubscriber<String?>() {
+                        override fun doOnError(code: Int, msg: String?) {
 
                         }
 
@@ -47,11 +49,7 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         override fun onNext(t: String?) {
-                            Log.d("haha",t+"--")
-                        }
 
-                        override fun onError(t: Throwable?) {
-                            Log.d("haha",t.toString())
                         }
                     })
             }

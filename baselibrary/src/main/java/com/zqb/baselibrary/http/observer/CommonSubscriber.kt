@@ -11,16 +11,8 @@ import org.reactivestreams.Subscription
 /**
  * Created by zqb on 2019/3/9.
  **/
-abstract class CommonObservable<T> : FlowableSubscriber<T> {
+abstract class CommonSubscriber<T> : BaseSubscriber<T>() {
     override fun onComplete() {
-
-    }
-
-    override fun onSubscribe(s: Subscription) {
-
-    }
-
-    override fun onNext(t: T) {
 
     }
 
@@ -34,6 +26,6 @@ abstract class CommonObservable<T> : FlowableSubscriber<T> {
         }
     }
 
-    abstract fun doOnError(code: Int, msg: String?)
+
 
 }
