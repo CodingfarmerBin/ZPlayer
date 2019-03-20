@@ -2,6 +2,7 @@ package com.zqb.baselibrary.base
 
 import android.app.Application
 import com.alibaba.android.arouter.launcher.ARouter
+import com.zqb.baselibrary.crash.CrashHandler
 import com.zqb.baselibrary.http.HttpUtils
 import com.zqb.baselibrary.http.config.OkHttpConfig
 import com.zqb.baselibrary.http.cookie.store.SPCookieStore
@@ -11,16 +12,33 @@ import java.util.HashMap
  * Created by zqb on 2019/3/2.
  **/
 open class BaseApplication : Application() {
+
+    companion object {
+        private var instance: BaseApplication? = null
+
+        fun getInstance(): BaseApplication {
+            return instance!!
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
+        instance=this
         initARouter()
         initRequest()
+        initCrashHandler()
+    }
+
+    private fun initCrashHandler() {
+        if(!Constants.isDebug) {
+            Thread.setDefaultUncaughtExceptionHandler(CrashHandler.instance)
+        }
     }
 
     private val headerMaps = HashMap<String, Any>()
 
     private fun initRequest() {
-        val okHttpClient = OkHttpConfig.Builder(this)
+        OkHttpConfig.Builder()
             //全局的请求头信息
             .setHeaders(headerMaps)
             //开启缓存策略(默认false)

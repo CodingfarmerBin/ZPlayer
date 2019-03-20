@@ -61,12 +61,17 @@ class Transformer {
     fun <T> configAll(dialog: Dialog?): FlowableTransformer<T, T> {
         return FlowableTransformer { upstream ->
             upstream
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .doOnSubscribe {
+                    dialog?.show()
+                }
                 .flatMap {
                     if(it is BaseBean){
                         if(it.code!=200) {
                             val throwable = ZThrowable()
                             throwable.code=it.code
-                            throwable.msg=it.msg
+                            throwable.msg=it.message
                             Flowable.error<T>(throwable)
                         }
                     }else if(it is String){
@@ -81,11 +86,6 @@ class Transformer {
                         }
                     }
                     createData(it)
-                }
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .doOnSubscribe {
-                    dialog?.show()
                 }
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -105,7 +105,7 @@ class Transformer {
                     if(it.code!=200) {
                         val throwable = ZThrowable()
                         throwable.code=it.code
-                        throwable.msg=it.msg
+                        throwable.msg=it.message
                         Flowable.error<T>(throwable)
                     }
                 }else if(it is String){

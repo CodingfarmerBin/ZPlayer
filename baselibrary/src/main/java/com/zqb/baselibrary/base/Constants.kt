@@ -1,6 +1,5 @@
 package com.zqb.baselibrary.base
 
-import android.os.Environment
 
 object Constants {
     //是否是测试模式
@@ -10,10 +9,9 @@ object Constants {
     //网络请求超时时间
     const val httpTimeOut = 10.toLong()
     //网络请求缓存地址
-    val httpCatchPath = "${BaseApplication().externalCacheDir}/ZCatch"
+    val httpCatchPath = "${BaseApplication.getInstance().externalCacheDir}/ZCatch"
     //网络请求 统一Log管理
-    const val REQUEST_TAG="REQUEST"
+    const val REQUEST_TAG="Z_REQUEST"
     //网络请求 基地址
-    const val BASE_URL="http://merchants.spiders-link.com/api/"
-//    const val BASE_URL="https://api.apiopen.top/"
+    const val BASE_URL="https://api.apiopen.top/"
 }

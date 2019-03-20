@@ -1,5 +1,7 @@
 package com.zqb.baselibrary.http.config
 
+import android.text.TextUtils
+import com.zqb.baselibrary.base.BaseApplication
 import com.zqb.baselibrary.base.Constants
 import com.zqb.baselibrary.http.gson.GsonAdapter
 import okhttp3.OkHttpClient
@@ -21,7 +23,12 @@ object RetrofitConfig {
 
     fun getRetrofit(): Retrofit {
         if(retrofit==null){
-            return Builder().build()
+            if(OkHttpConfig.getOkHttpClient()==null){
+                OkHttpConfig.Builder().build()
+            }
+            return Builder()
+                .setClient(OkHttpConfig.getOkHttpClient()!!)
+                .build()
         }else {
             return retrofit!!
         }
@@ -86,8 +93,9 @@ object RetrofitConfig {
             if(client!=null) {
                 retrofitBuilder.client(client!!)
             }
-            retrofitBuilder.baseUrl(if(baseUrl==null) Constants.BASE_URL else baseUrl!!)
-            return retrofitBuilder.build()
+            retrofitBuilder.baseUrl(if(TextUtils.isEmpty(baseUrl)) Constants.BASE_URL else baseUrl!!)
+            retrofit = retrofitBuilder.build()
+            return retrofit!!
         }
 
     }

@@ -2,6 +2,8 @@ package com.zqb.baselibrary.http.config
 
 import android.content.Context
 import android.text.TextUtils
+import android.util.Log
+import com.zqb.baselibrary.base.BaseApplication
 import com.zqb.baselibrary.base.Constants
 import com.zqb.baselibrary.http.Utils.SSLUtils
 import com.zqb.baselibrary.http.cookie.CookieJarImpl
@@ -24,11 +26,11 @@ import java.util.concurrent.TimeUnit
  */
 object OkHttpConfig {
 
-    private var defaultCachePath:String?=null
+    private var defaultCachePath =Constants.httpCatchPath
     private var defaultCacheSize = Constants.httpCacheSize
     private var defaultTimeout = Constants.httpTimeOut
 
-    private val okHttpClientBuilder = OkHttpClient.Builder()
+     val okHttpClientBuilder = OkHttpClient.Builder()
 
     private var okHttpClient: OkHttpClient? = null
 
@@ -36,7 +38,7 @@ object OkHttpConfig {
         return okHttpClient
     }
 
-    class Builder(var context: Context) {
+    class Builder() {
 
         private var headerMaps: Map<String, Any> = HashMap()
         private var isDebug: Boolean = false
@@ -118,7 +120,7 @@ object OkHttpConfig {
         fun build(): OkHttpClient {
 
             setCookieConfig()
-//            setCacheConfig()
+            setCacheConfig()
             setHeadersConfig()
             setSslConfig()
             addInterceptors()
@@ -157,14 +159,6 @@ object OkHttpConfig {
         }
 
         /**
-         * 配置headers
-         */
-        private fun setHeadersConfig(map:HashMap<String, Any>) {
-            headerMaps=map
-            okHttpClientBuilder.addInterceptor(HeaderInterceptor(map))
-        }
-
-        /**
          * 配饰cookie保存到sp文件中
          */
         private fun setCookieConfig() {
@@ -177,8 +171,6 @@ object OkHttpConfig {
          * 配置缓存
          */
         private fun setCacheConfig() {
-            val externalCacheDir = context.externalCacheDir ?: return
-            defaultCachePath = externalCacheDir.path + "/RxHttpCacheData"
             if (isCache) {
                 val cache: Cache
                 if (!TextUtils.isEmpty(cachePath) && cacheMaxSize > 0) {

@@ -43,14 +43,14 @@ class MainActivity : AppCompatActivity() {
                     .setAction("Action", null).show()
 //                https://api.apiopen.top/getJoke?page=1&count=2&type=video
                 val map: HashMap<String, Any> = HashMap()
-                map["userPhone"] = "18249033054"
-                map["userPassword"] = "7D539FA7514BC639F23E752E4418C049"
-                map["regId"] = "13065ffa4e4cf8f31e5"
-                map["userId"] = ""
+//                map["userPhone"] = "18249033054"
+//                map["userPassword"] = "7D539FA7514BC639F23E752E4418C049"
+//                map["regId"] = "13065ffa4e4cf8f31e5"
+//                map["userId"] = ""
                 HttpUtils
-                    .post("bUser/shopUserLogin", map,DataBean::class.java)
+                    .post("getJoke?page=1&count=2&type=video", map,NewsBean::class.java)
                     .compose(Transformer().configAll(null))
-                    .subscribe(object: CommonSubscriber<DataBean?>() {
+                    .subscribe(object: CommonSubscriber<NewsBean?>() {
                         override fun doOnSubscribe(s: Subscription) {
 
                         }
@@ -59,8 +59,8 @@ class MainActivity : AppCompatActivity() {
                             Toast.makeText(applicationContext,msg,Toast.LENGTH_LONG).show()
                         }
 
-                        override fun onNext(t: DataBean?) {
-                            Toast.makeText(applicationContext,t!!.msg,Toast.LENGTH_LONG).show()
+                        override fun onNext(t: NewsBean?) {
+                            Toast.makeText(applicationContext,t!!.message,Toast.LENGTH_LONG).show()
                         }
                     })
 //                HttpUtils.createApi(ApiService::class.java)
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 //                        }
 //
 //                        override fun doOnError(code: Int, msg: String?) {
-//                            Log.d("haha",msg)
+//                            Log.d("haha",msg+"--")
 //                        }
 //
 //                        override fun onNext(t: String?) {

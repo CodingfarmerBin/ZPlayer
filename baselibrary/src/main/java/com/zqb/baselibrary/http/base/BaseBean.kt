@@ -13,6 +13,6 @@ open class BaseBean {
     /**
      * 错误描述
      */
-    var msg: String? = null
+    var message: String? = null
 
 }
