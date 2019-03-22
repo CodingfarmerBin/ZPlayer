@@ -8,26 +8,25 @@ import io.reactivex.functions.Function
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import java.lang.reflect.ParameterizedType
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
+import io.reactivex.Observable
 
 
 /**
  *
  * Gson解析
  */
-class GSONFun<T>(private val responseClass:Class<T>?):Function<String,Flowable<T>> {
+class GSONFun<T>(private val responseClass:Class<T>?):Function<String,Observable<T>> {
 
     @SuppressLint("CheckResult")
-    override fun apply(t: String): Flowable<T> {
-        return Flowable.create({
+    override fun apply(t: String): Observable<T> {
+        return Observable.create{
             if(responseClass!=null) {
                 val fromJson = GsonAdapter.buildGson().fromJson(t, responseClass)
                 it.onNext(fromJson)
             }else{
                 it.onNext(t as T)
             }
-        }, BackpressureStrategy.BUFFER)
+        }
     }
 
 

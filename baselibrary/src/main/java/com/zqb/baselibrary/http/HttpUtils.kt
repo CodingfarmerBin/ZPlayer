@@ -10,6 +10,7 @@ import com.zqb.baselibrary.http.cookie.store.CookieStore
 import com.zqb.baselibrary.http.intercepter.GSONFun
 import com.zqb.baselibrary.http.request.IRequest
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import okhttp3.*
 import retrofit2.Retrofit
 
@@ -24,7 +25,7 @@ class HttpUtils {
         /**
          * post请求
          */
-        fun <T> post(url: String, map: HashMap<String, Any>?,responseClass:Class<T>): Flowable<T> {
+        fun <T> post(url: String, map: HashMap<String, Any>?,responseClass:Class<T>): Observable<T> {
             return instance
                 .config()
                 .create(ApiService::class.java)
@@ -36,7 +37,7 @@ class HttpUtils {
         /**
          * post请求 返回参数String类型
          */
-        fun  post(url: String, map: HashMap<String, Any>?): Flowable<String> {
+        fun  post(url: String, map: HashMap<String, Any>?): Observable<String> {
             return instance
                 .config()
                 .create(ApiService::class.java)
@@ -46,7 +47,7 @@ class HttpUtils {
         /**
          * get请求
          */
-        fun <T> get(url: String,responseClass:Class<T>): Flowable<T> {
+        fun <T> get(url: String,responseClass:Class<T>): Observable<T> {
             return instance
                 .config()
                 .create(ApiService::class.java)
@@ -57,7 +58,7 @@ class HttpUtils {
         /**
          * get请求 通过自定义的参数
          */
-        fun <T> get(data: IRequest,responseClass:Class<T>): Flowable<T> {
+        fun <T> get(data: IRequest,responseClass:Class<T>): Observable<T> {
             return instance
                 .config()
                 .create(ApiService::class.java)

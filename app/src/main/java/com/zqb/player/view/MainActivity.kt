@@ -1,57 +1,50 @@
 package com.zqb.player.view
 
-import android.annotation.SuppressLint
-import android.os.Bundle
-import android.util.Log
 import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.alibaba.android.arouter.launcher.ARouter
 import com.zqb.baselibrary.http.HttpUtils
-import com.zqb.baselibrary.http.base.Api
-import com.zqb.baselibrary.http.base.ApiService
-import com.zqb.baselibrary.http.base.BaseBean
 import com.zqb.baselibrary.http.intercepter.Transformer
-import com.zqb.baselibrary.http.subscriber.CommonSubscriber
+import com.zqb.baselibrary.http.subscriber.CommonObserver
+import com.zqb.baselibrary.mvp.view.BaseActivity
 import com.zqb.player.BuildConfig
 import com.zqb.player.R
-import io.reactivex.FlowableSubscriber
-import io.reactivex.functions.Consumer
-
+import com.zqb.player.model.MainModel
+import com.zqb.player.presenter.MainPresenter
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
-import org.reactivestreams.Subscriber
-import org.reactivestreams.Subscription
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<MainActivity, MainPresenter<MainActivity>,MainModel>(){
+    override fun setMainLayout(): Int {
+        return R.layout.activity_main
+    }
 
-    @SuppressLint("CheckResult")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun createPresenter(): MainPresenter<MainActivity> {
+        return MainPresenter()
+    }
+
+    override fun init() {
         setSupportActionBar(toolbar)
-
         fab.setOnClickListener { view ->
             if (!BuildConfig.isComponent) {
                 ARouter.getInstance().build("/video/VideoActivity")
                     .withString("title", "shoot")
                     .navigation()
-
             } else {
                 Snackbar.make(view, "当前为组件模式", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
-//                https://api.apiopen.top/getJoke?page=1&count=2&type=video
                 val map: HashMap<String, Any> = HashMap()
 //                map["userPhone"] = "18249033054"
 //                map["userPassword"] = "7D539FA7514BC639F23E752E4418C049"
 //                map["regId"] = "13065ffa4e4cf8f31e5"
 //                map["userId"] = ""
                 HttpUtils
-                    .post("getJoke?page=1&count=2&type=video", map,NewsBean::class.java)
+                    .post("getJoke?page=1&count=2&type=video", map, NewsBean::class.java)
                     .compose(Transformer().configAll(null))
-                    .subscribe(object: CommonSubscriber<NewsBean?>() {
-                        override fun doOnSubscribe(s: Subscription) {
+                    .subscribe(object: CommonObserver<NewsBean?>() {
+                        override fun doOnSubscribe(s: Disposable) {
 
                         }
 
@@ -82,7 +75,9 @@ class MainActivity : AppCompatActivity() {
 //                    })
             }
         }
+    }
 
+    override fun success(type: Int, data: String) {
 
     }
 

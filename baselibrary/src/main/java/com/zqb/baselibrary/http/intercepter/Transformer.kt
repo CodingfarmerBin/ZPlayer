@@ -3,12 +3,10 @@ package com.zqb.baselibrary.http.intercepter
 import android.app.Dialog
 import android.util.Log
 import com.zqb.baselibrary.http.exception.ZThrowable
-import io.reactivex.FlowableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import com.zqb.baselibrary.http.base.BaseBean
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
+import io.reactivex.*
 import org.json.JSONObject
 
 
@@ -58,8 +56,8 @@ class Transformer {
      * @param <T>    泛型
      * @return 返回Observable
      */
-    fun <T> configAll(dialog: Dialog?): FlowableTransformer<T, T> {
-        return FlowableTransformer { upstream ->
+    fun <T> configAll(dialog: Dialog?): ObservableTransformer<T, T> {
+        return ObservableTransformer { upstream ->
             upstream
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -72,7 +70,7 @@ class Transformer {
                             val throwable = ZThrowable()
                             throwable.code=it.code
                             throwable.msg=it.message
-                            Flowable.error<T>(throwable)
+                            Observable.error<T>(throwable)
                         }
                     }else if(it is String){
                         val jsonObject = JSONObject(it)
@@ -98,8 +96,8 @@ class Transformer {
     /**
      * 处理网络请求的结果
      */
-    fun <T> handleResult(): FlowableTransformer<T, T> {
-        return FlowableTransformer { upstream ->
+    fun <T> handleResult(): ObservableTransformer<T, T> {
+        return ObservableTransformer { upstream ->
             upstream.flatMap {
                 if(it is BaseBean){
                     if(it.code!=200) {
@@ -124,15 +122,15 @@ class Transformer {
         }
     }
 
-    private fun <T> createData(t: T): Flowable<T> {
-        return Flowable.create({ emitter ->
+    private fun <T> createData(t: T): Observable<T> {
+        return Observable.create{ emitter ->
             try {
                 emitter.onNext(t)
                 emitter.onComplete()
             } catch (e: Exception) {
                 emitter.onError(e)
             }
-        }, BackpressureStrategy.BUFFER)
+        }
     }
 
 
