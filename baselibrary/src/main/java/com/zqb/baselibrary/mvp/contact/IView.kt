@@ -1,5 +1,7 @@
 package com.zqb.baselibrary.mvp.contact
 
+import android.app.Dialog
+
 /**
  * Created by zqb on 2019/3/22
  *
@@ -7,6 +9,6 @@ package com.zqb.baselibrary.mvp.contact
 interface IView {
 
     fun success(type:Int,data:String)
-    fun getLoadingView(): IDialog
-    fun showToast(msg:String)
+    fun getLoadingView(): Dialog
+    fun showToast(msg:String?)
 }

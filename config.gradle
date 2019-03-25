@@ -19,7 +19,8 @@ ext {
     appIdConfig = [
             app  : "com.zqb.player",
             shoot: "com.zqb.shoot",
-            video: "com.zqb.video"
+            video: "com.zqb.video",
+            demo: "com.zqb.demo"
     ]
 
     //version配置

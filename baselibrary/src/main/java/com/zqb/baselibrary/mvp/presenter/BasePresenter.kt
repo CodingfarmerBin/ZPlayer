@@ -1,5 +1,6 @@
 package com.zqb.baselibrary.mvp.presenter
 
+import android.util.Log
 import com.zqb.baselibrary.mvp.contact.IPresenter
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -50,11 +51,14 @@ abstract class BasePresenter<T,M> : IPresenter<T> {
     }
 
 
-    fun getView(): T {
-        return weakReference?.get()!!
+    fun getView(): T ?{
+        return weakReference?.get()
     }
 
     fun getModel(): M {
-        return modelReference?.get()!!
+        if(modelReference!!.get()==null){
+            modelReference = WeakReference(createModel())
+        }
+        return modelReference!!.get()!!
     }
 }

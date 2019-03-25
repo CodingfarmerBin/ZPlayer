@@ -22,7 +22,7 @@ class Transformer {
      * @param <T> 泛型
      * @return 返回Observable
      */
-    fun <T> configSchedulers(): FlowableTransformer<T, T> {
+    fun <T> configSchedulers(): ObservableTransformer<T, T> {
         return configSchedulers(null)
     }
 
@@ -33,8 +33,8 @@ class Transformer {
      * @param <T>    泛型
      * @return 返回Observable
      */
-    fun <T> configSchedulers(dialog: Dialog?): FlowableTransformer<T, T> {
-        return FlowableTransformer { upstream ->
+    fun <T> configSchedulers(dialog: Dialog?): ObservableTransformer<T, T> {
+        return ObservableTransformer { upstream ->
             upstream
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -59,17 +59,10 @@ class Transformer {
     fun <T> configAll(dialog: Dialog?): ObservableTransformer<T, T> {
         return ObservableTransformer { upstream ->
             upstream
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .doOnSubscribe {
-                    dialog?.show()
-                }
                 .flatMap {
                     if(it is BaseBean){
                         if(it.code!=200) {
-                            val throwable = ZThrowable()
-                            throwable.code=it.code
-                            throwable.msg=it.message
+                            val throwable = ZThrowable(it.code,it.message!!)
                             Observable.error<T>(throwable)
                         }
                     }else if(it is String){
@@ -77,19 +70,23 @@ class Transformer {
                         val msg = jsonObject.optString("msg")
                         val code = jsonObject.optInt("code")
                         if(code!=200) {
-                            val throwable = ZThrowable()
-                            throwable.code=code
-                            throwable.msg=msg
+                            val throwable = ZThrowable(code,msg)
                             Flowable.error<T>(throwable)
                         }
                     }
                     createData(it)
+                }
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .doOnSubscribe {
+                    dialog?.show()
                 }
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally {
                     dialog?.dismiss()
                 }
+
         }
     }
 
@@ -101,9 +98,7 @@ class Transformer {
             upstream.flatMap {
                 if(it is BaseBean){
                     if(it.code!=200) {
-                        val throwable = ZThrowable()
-                        throwable.code=it.code
-                        throwable.msg=it.message
+                        val throwable = ZThrowable(it.code,it.message!!)
                         Flowable.error<T>(throwable)
                     }
                 }else if(it is String){
@@ -111,9 +106,7 @@ class Transformer {
                     val msg = jsonObject.optString("msg")
                     val code = jsonObject.optInt("code")
                     if(code!=200) {
-                        val throwable = ZThrowable()
-                        throwable.code=code
-                        throwable.msg=msg
+                        val throwable = ZThrowable(code,msg)
                         Flowable.error<T>(throwable)
                     }
                 }

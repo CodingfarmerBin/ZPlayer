@@ -26,6 +26,7 @@ class GSONFun<T>(private val responseClass:Class<T>?):Function<String,Observable
             }else{
                 it.onNext(t as T)
             }
+            it.onComplete()
         }
     }
 

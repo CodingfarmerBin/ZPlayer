@@ -1,5 +1,6 @@
 package com.zqb.baselibrary.mvp.view
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Toast
@@ -11,12 +12,13 @@ import com.zqb.baselibrary.mvp.presenter.BasePresenter
 /**
  * Created by zqb on 2019/3/21
  *
+ * mvp
  */
 abstract class BaseActivity<V, T : BasePresenter<V,M>,M> : AppCompatActivity() , IView {
 
     protected var p: T? = null
 
-    var mProgressDialog: IDialog?=null
+    var mProgressDialog: Dialog?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +43,7 @@ abstract class BaseActivity<V, T : BasePresenter<V,M>,M> : AppCompatActivity() ,
      */
     protected abstract fun init()
 
-    override fun showToast(msg: String) {
+    override fun showToast(msg: String?) {
         Toast.makeText(applicationContext,msg,Toast.LENGTH_LONG).show()
     }
 
@@ -49,7 +51,7 @@ abstract class BaseActivity<V, T : BasePresenter<V,M>,M> : AppCompatActivity() ,
         Toast.makeText(applicationContext,msg,Toast.LENGTH_LONG).show()
     }
 
-    override fun getLoadingView(): IDialog {
+    override fun getLoadingView(): Dialog {
         if(mProgressDialog==null){
             mProgressDialog =LoadingDialog(this)
         }
